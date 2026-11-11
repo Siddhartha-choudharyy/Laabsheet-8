@@ -1,0 +1,384 @@
+
+1. Prime Number Check
+
+Checks if a given number is prime by testing factors up to its square root.
+cpp
+#include <iostream>
+#include <cmath>
+
+bool isPrime(int n) {
+    if (n <= 1) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+    
+    for (int i = 3; i <= std::sqrt(n); i += 2) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+
+2. Fibonacci Series
+
+Prints the Fibonacci sequence up to \(N\) terms.
+cpp
+#include <iostream>
+
+void printFibonacci(int n) {
+    if (n <= 0) return;
+    
+    long long t1 = 0, t2 = 1;
+    for (int i = 1; i <= n; ++i) {
+        std::cout << t1 << " ";
+        long long nextTerm = t1 + t2;
+        t1 = t2;
+        t2 = nextTerm;
+    }
+    std::cout << std::endl;
+}
+
+
+3. Bubble Sort Technique
+
+Sorts an array of a given size in ascending order.
+cpp
+#include <iostream>
+
+void bubbleSort(int arr[], int size) {
+    for (int i = 0; i < size - 1; ++i) {
+        bool swapped = false;
+        for (int j = 0; j < size - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                std::swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+        if (!swapped) break; // Optimization if already sorted
+    }
+}
+
+
+4. String Copy
+
+Copies characters from the source string into the destination buffer (equivalent to standard strcpy).
+cpp
+void copyString(char dest[], const char src[]) {
+    int i = 0;
+    while (src[i] != '\0') {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0'; // Null-terminate destination string
+}
+
+
+5. Count Words in a String
+
+Counts words by tracking state transitions between whitespace and characters.
+cpp
+#include <string>
+#include <cctype>
+
+int countWords(const std::string& str) {
+    int count = 0;
+    bool inWord = false;
+    
+    for (char ch : str) {
+        if (std::isspace(ch)) {
+            inWord = false;
+        } else if (!inWord) {
+            inWord = true;
+            count++;
+        }
+    }
+    return count;
+}
+
+
+6. Binary Search
+
+Searches a sorted array. Returns the element's index if found; otherwise, returns -1.
+cpp
+int binarySearch(const int arr[], int size, int target) {
+    int left = 0;
+    int right = size - 1;
+    
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        
+        if (arr[mid] == target) return mid;
+        if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+
+
+7. Matrix Addition
+
+Adds two matrices of size \(R \times C\) and stores the outcome in a third result matrix.
+cpp
+#include <iostream>
+
+const int MAX_R = 10;
+const int MAX_C = 10;
+
+void addMatrices(int A[MAX_R][MAX_C], int B[MAX_R][MAX_C], int C[MAX_R][MAX_C], int rows, int cols) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            C[i][j] = A[i][j] + B[i][j];
+        }
+    }
+}
+
+
+8. Sum of Diagonal Elements
+
+Finds the sum of the primary (main) diagonal numbers in a square matrix.
+cpp
+#include <iostream>
+
+const int MAX_SIZE = 10;
+
+int sumPrincipalDiagonal(int matrix[MAX_SIZE][MAX_SIZE], int size) {
+    int sum = 0;
+    for (int i = 0; i < size; ++i) {
+        sum += matrix[i][i];
+    }
+    return sum;
+}
+Use code with caution.
+
+9. Swap Using Call-By-Reference
+
+Swaps two integers using regular C++ references (&).
+cpp
+void swapNumbers(int& a, int& b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+
+Part 2: Object-Oriented Programming (10–15)
+
+
+10. Student Class Basics
+
+Demonstrates a complete class interface with explicit member inputs and data display.
+cpp
+#include <iostream>
+#include <string>
+
+class Student {
+private:
+    std::string name;
+    int roll_no;
+    double marks;
+
+public:
+    void inputDetails() {
+        std::cout << "Enter name: ";
+        std::cin.ignore();
+        std::getline(std::cin, name);
+        std::cout << "Enter roll number: ";
+        std::cin >> roll_no;
+        std::cout << "Enter marks: ";
+        std::cin >> marks;
+    }
+
+    void displayDetails() const {
+        std::cout << "\n--- Student Details ---" << "\nName: " << name 
+                  << "\nRoll No: " << roll_no << "\nMarks: " << marks << std::endl;
+    }
+};
+
+int main() {
+    Student s;
+    s.inputDetails();
+    s.displayDetails();
+    return 0;
+}
+
+
+11. Car Class (Multiple Objects)
+
+Shows instantiation and data management across distinct objects via constructors.
+cpp
+#include <iostream>
+#include <string>
+
+class Car {
+private:
+    std::string brand;
+    double price;
+
+public:
+    Car(std::string b, double p) : brand(b), price(p) {}
+
+    void displayInfo() const {
+        std::cout << "Brand: " << brand << " | Price: $" << price << std::endl;
+    }
+};
+
+int main() {
+    Car car1("Toyota", 25000);
+    Car car2("Tesla", 45000);
+    Car car3("BMW", 55000);
+
+    car1.displayInfo();
+    car2.displayInfo();
+    car3.displayInfo();
+    return 0;
+}
+
+
+12. Encapsulation (BankAccount)
+
+Protects structural internal state (balance) via data validation interfaces.
+cpp
+#include <iostream>
+
+class BankAccount {
+private:
+    double balance;
+
+public:
+    BankAccount(double initialBalance) {
+        balance = (initialBalance >= 0) ? initialBalance : 0;
+    }
+
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            std::cout << "Deposited: $" << amount << " | Current Balance: $" << balance << std::endl;
+        } else {
+            std::cout << "Invalid deposit amount!" << std::endl;
+        }
+    }
+
+    void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            std::cout << "Withdrew: $" << amount << " | Current Balance: $" << balance << std::endl;
+        } else {
+            std::cout << "Withdrawal denied! Invalid amount or insufficient balance." << std::endl;
+        }
+    }
+};
+
+int main() {
+    BankAccount account(1000.0);
+    account.deposit(500);
+    account.withdraw(300);
+    account.withdraw(2000); // Triggers safe error
+    return 0;
+}
+
+
+13. Single Inheritance
+
+Derives Student from a base Person class, explicitly handling parameterized initialization.
+cpp
+#include <iostream>
+#include <string>
+
+class Person {
+protected:
+    std::string name;
+    int age;
+
+public:
+    Person(std::string n, int a) : name(n), age(a) {}
+
+    void displayPersonDetails() const {
+        std::cout << "Name: " << name << "\nAge: " << age << std::endl;
+    }
+};
+
+class StudentInherited : public Person {
+private:
+    double marks;
+
+public:
+    StudentInherited(std::string n, int a, double m) : Person(n, a), marks(m) {}
+
+    void displayAllDetails() const {
+        displayPersonDetails();
+        std::cout << "Marks: " << marks << std::endl;
+    }
+};
+
+int main() {
+    StudentInherited student("Amit Sharma", 20, 88.5);
+    student.displayAllDetails();
+    return 0;
+}
+
+
+14. Function Overloading (Compile-Time Polymorphism)
+
+Implements static polymorphism using the same identifier with varying signatures.
+cpp
+#include <iostream>
+
+class Calculator {
+public:
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+};
+
+int main() {
+    Calculator calc;
+    std::cout << "Integer Addition (5 + 10): " << calc.add(5, 10) << std::endl;
+    std::cout << "Double Addition (5.5 + 10.2): " << calc.add(5.5, 10.2) << std::endl;
+    return 0;
+}
+
+15. Abstraction (Abstract Class & Pure Virtual Functions)
+
+Demonstrates runtime polymorphism using an abstract interface base class.
+cpp
+#include <iostream>
+
+class Shape {
+public:
+    virtual double area() const = 0; // Pure Virtual Function
+    virtual void display() const = 0;
+    virtual ~Shape() {}             // Virtual destructor for safe dynamic cleanup
+};
+
+class Circle : public Shape {
+private:
+    double radius;
+public:
+    Circle(double r) : radius(r) {}
+    double area() const override { return 3.14159 * radius * radius; }
+    void display() const override { std::cout << "Circle Area: " << area() << std::endl; }
+};
+
+class Rectangle : public Shape {
+private:
+    double width, height;
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+    double area() const override { return width * height; }
+    void display() const override { std::cout << "Rectangle Area: " << area() << std::endl; }
+};
+
+int main() {
+    Shape* shape1 = new Circle(5.0);
+    Shape* shape2 = new Rectangle(4.0, 6.0);
+
+    shape1->display();
+    shape2->display();
+
+    delete shape1;
+    delete shape2;
+    return 0;
+}
